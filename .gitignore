@@ -80,4 +80,7 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+### Custom ###
+doc/
+
 # End of https://www.toptal.com/developers/gitignore/api/jetbrains,c++,cmake
