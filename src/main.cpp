@@ -2,10 +2,10 @@
 
 int main() {
 
-    Vertex v1 = Vertex("A");
-    Vertex v2 = Vertex("B");
-    Vertex v3 = Vertex("C");
-    Vertex v4 = Vertex("D");
+    Vertex v1("A");
+    Vertex v2("B");
+    Vertex v3("C");
+    Vertex v4("D");
 
     std::vector<Vertex*> vertices;
     vertices.push_back(&v1);
@@ -13,12 +13,12 @@ int main() {
     vertices.push_back(&v3);
     vertices.push_back(&v4);
 
-    Edge e1_2 = Edge(v1, v2);
-    Edge e1_3 = Edge(v1, v3);
-    Edge e1_4 = Edge(v1, v4);
-    Edge e2_3 = Edge(v2, v3);
-    Edge e2_4 = Edge(v2, v4);
-    Edge e3_4 = Edge(v3, v4);
+    Edge e1_2(v1, v2);
+    Edge e1_3(v1, v3);
+    Edge e1_4(v1, v4);
+    Edge e2_3(v2, v3);
+    Edge e2_4(v2, v4);
+    Edge e3_4(v3, v4);
 
     std::vector<Edge*> edges;
     edges.push_back(&e1_2);
@@ -31,6 +31,6 @@ int main() {
     Graph g = Graph(vertices, edges);
     std::cout << g << std::endl;
 
-    g.solve(4);
+    g.solve();
     std::cout << std::endl << g << std::endl;
 }

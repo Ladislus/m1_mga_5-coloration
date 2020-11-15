@@ -15,13 +15,14 @@ class Graph {
         std::vector<Vertex*>* _vertices;
         std::vector<Edge*>* _edges;
 
-        std::vector<Vertex> neighbors(const Vertex& e) const;
+        std::vector<Vertex*> neighbors(const Vertex& e) const;
 
     public:
 
         Graph(std::vector<Vertex*>& vertices, std::vector<Edge*>& edges);
 
-        void solve(int k);
+        void solve();
+        void colorize(Vertex* vertex);
 
         friend std::ostream& operator<<(std::ostream& out, const Graph& g);
 };
