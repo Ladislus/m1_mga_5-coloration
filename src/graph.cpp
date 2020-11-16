@@ -3,7 +3,7 @@
 Graph::Graph(): _vertices() {}
 
 Graph::~Graph() {
-    for (const auto& vertex : this->_vertices) free(vertex.second);
+    for (const auto& vertex : this->_vertices) delete vertex.second;
 }
 
 
