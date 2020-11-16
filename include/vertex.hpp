@@ -4,11 +4,10 @@
 #include <string>
 #include <iostream>
 #include <unordered_map>
-#include <vector>
+#include <set>
 
 class Vertex;
 typedef std::unordered_map<std::string, Vertex*> nmap;
-typedef std::vector<Vertex*> nvector;
 
 class Vertex {
 
@@ -22,9 +21,10 @@ class Vertex {
 
         const std::string& identifier() const;
         int& color();
-        nvector neighbors() const;
 
         void addNeighbor(Vertex* vertex);
+
+        void colorize();
 
         friend std::ostream& operator<<(std::ostream& out, const Vertex& e);
 };

@@ -9,11 +9,11 @@ int main() {
     g.addVertex("C", {"A", "B", "D"});
     g.addVertex("D", {"A", "B", "C"});
 
-    std::cout << g << std::endl;
+    std::cout << "Before :" << std::endl << g << std::endl;
 
     g.solve();
 
-    std::cout << g << std::endl;
+    std::cout << "After :" << std::endl << g << std::endl;
 
     return 0;
 }
