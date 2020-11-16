@@ -9,6 +9,7 @@
 class Graph {
 
     private:
+        Vertex* _start;
         nmap _vertices;
 
     public:

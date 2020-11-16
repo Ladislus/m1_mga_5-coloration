@@ -1,6 +1,6 @@
 #include "graph.hpp"
 
-Graph::Graph(): _vertices() {}
+Graph::Graph(): _vertices(), _start(nullptr) {}
 
 Graph::~Graph() {
     for (const auto& vertex : this->_vertices) delete vertex.second;
@@ -13,6 +13,9 @@ void Graph::addVertex(const std::string& identifier, const std::initializer_list
         v = new Vertex(identifier);
         this->_vertices.insert(std::pair(identifier, v));
     } else v = it->second;
+
+    if (!this->_start) this->_start = v;
+
     for (const auto& nidentifier : nidentifiers) {
         const auto& it = this->_vertices.find(nidentifier);
         Vertex* neighbor = nullptr;
@@ -26,7 +29,7 @@ void Graph::addVertex(const std::string& identifier, const std::initializer_list
 
 void Graph::solve() {
 
-    this->_vertices.begin()->second->colorize();
+    this->_start->colorize();
 
     for (const auto& vertex : this->_vertices) {
         if (vertex.second->color() < 0) {
