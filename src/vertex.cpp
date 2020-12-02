@@ -48,7 +48,7 @@ void Vertex::colorize() {
 }
 
 std::ostream& operator<<(std::ostream& out, const Vertex& e) {
-    out << e._identifier << "(" << e.printableColor() << ")" << std::endl << "\t";
+    out << e._identifier << " (" << e.printableColor() << ") [ ";
     for (const auto& neighbor : e._neighbors) out << neighbor.second->identifier() << " ";
-    return out;
+    return out << "]";
 }
