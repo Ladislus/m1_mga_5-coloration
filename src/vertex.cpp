@@ -17,6 +17,7 @@ std::string Vertex::printableColor() const {
         case green: return "green";
         case white: return "white";
         case black: return "black";
+        default: return "vide";
     }
 }
 

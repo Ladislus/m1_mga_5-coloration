@@ -12,8 +12,8 @@
 class Graph {
 
     private:
-        Vertex* _start;
         nmap _vertices;
+        Vertex* _start;
 
     public:
         Graph();
