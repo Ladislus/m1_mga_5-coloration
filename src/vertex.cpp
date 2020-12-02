@@ -7,6 +7,17 @@ const std::string& Vertex::identifier() const { return this->_identifier; }
 
 Color& Vertex::color() { return _color; }
 
+std::string Vertex::printableColor() const {
+    switch (this->_color) {
+        case vide: return "vide";
+        case blue: return "blue";
+        case red: return "red";
+        case green: return "green";
+        case white: return "white";
+        case black: return "black";
+    }
+}
+
 void Vertex::addNeighbor(Vertex* vertex) {
     const auto& it = this->_neighbors.find(vertex->identifier());
     if (it == this->_neighbors.end()) {
@@ -35,7 +46,7 @@ void Vertex::colorize() {
 }
 
 std::ostream& operator<<(std::ostream& out, const Vertex& e) {
-    out << e._identifier << "(" << e._color << ")" << std::endl << "\t";
+    out << e._identifier << "(" << e.printableColor() << ")" << std::endl << "\t";
     for (const auto& neighbor : e._neighbors) out << neighbor.second->identifier() << " ";
     return out;
 }

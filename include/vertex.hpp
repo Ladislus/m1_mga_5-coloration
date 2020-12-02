@@ -24,6 +24,8 @@ class Vertex {
         const std::string& identifier() const;
         Color& color();
 
+        std::string printableColor() const;
+
         void addNeighbor(Vertex* vertex);
 
         void colorize();
