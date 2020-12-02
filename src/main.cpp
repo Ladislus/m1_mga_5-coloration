@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
         g.addVertex("C", {"A", "B", "D"});
         g.addVertex("D", {"A", "B", "C"});
         g.addVertex("E", {"A"});
-        std::cout << "Loading test loaded !" << std::endl;
+        std::cout << "Test data loaded !" << std::endl;
         std::cout << g << std::endl;
     }
 
