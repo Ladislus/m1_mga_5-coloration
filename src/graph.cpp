@@ -6,7 +6,7 @@ Graph::~Graph() {
     for (const auto& vertex : this->_vertices) delete vertex.second;
 }
 
-void Graph::addVertex(const std::string& identifier, const std::initializer_list<std::string>& nidentifiers) {
+void Graph::addVertex(const std::string& identifier, const std::vector<std::string>& nidentifiers) {
     Vertex* v = nullptr;
     const auto& it = this->_vertices.find(identifier);
     if (it == this->_vertices.end()) {
@@ -27,19 +27,32 @@ void Graph::addVertex(const std::string& identifier, const std::initializer_list
     }
 }
 
-void Graph::solve() {
+void Graph::addVertex(const std::string& identifier, const std::initializer_list<std::string>& nidentifiers) {
+    this->addVertex(identifier, std::vector(nidentifiers));
+}
+
+
+void Graph::coloring() {
 
     if (this->_start == nullptr) {
         std::cerr << "Error: No vertices were added to the graph (EMPTY_GRAPH)" << std::endl;
         exit(1);
     } else this->_start->colorize();
+}
 
+bool Graph::checkColoring() {
+    // For each vertex in the graph ...
     for (const auto& vertex : this->_vertices) {
-        if (vertex.second->color() == vide) {
-            std::cerr << "Error: Two neighbors have the same color" << std::endl;
-            exit(1);
+        // ... If the current vertex has no color, return false
+        if (vertex.second->color() == vide) return false;
+        // ... For each neighbor of the current vertex ...
+        for (const auto& neighbor : vertex.second->neighbors()) {
+            // ... If the current vertex has the same color has the neighbor, return false
+            if (vertex.second->color() == neighbor.second->color()) return false;
         }
     }
+    // If everything went fine, return true;
+    return true;
 }
 
 std::ostream& operator<<(std::ostream& out, const Graph& g) {
