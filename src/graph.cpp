@@ -19,7 +19,7 @@ void Graph::loadFile(const std::string& filepath) {
                 std::string vertex = line.substr(0, line.find(':'));
 
                 // Get the list of neighbors (without the '[]')
-                std::string neighborsString = line.substr(4, line.size());
+                std::string neighborsString = line.substr(line.find(':') + 3, line.size());
                 neighborsString = neighborsString.substr(0, neighborsString.size() - 1);
 
                 // Split by comma and remove spaces
