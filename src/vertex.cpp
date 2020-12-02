@@ -30,8 +30,6 @@ void Vertex::colorize() {
                         neighborsColor.begin(), neighborsColor.end(),
                         std::inserter(availableColors, availableColors.end()));
 
-    for (const auto& x : availableColors) std::cout << x << std::endl;
-
     this->_color = *availableColors.begin();
     for (const auto& vertex : this->_neighbors) if (vertex.second->color() < 0) vertex.second->colorize();
 }
