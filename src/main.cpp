@@ -1,5 +1,6 @@
 #include "graph.hpp"
 #include <iostream>
+#include <filesystem>
 
 int main(int argc, char* argv[]) {
 
@@ -25,6 +26,8 @@ int main(int argc, char* argv[]) {
     } else {
         std::cout << "Coloring completed with success !" << std::endl;
         std::cout << g << std::endl;
+        if (argc > 2) g.writeFile(argv[2]);
+        else g.writeFile(std::filesystem::current_path().string().append("/out.colors"));
     }
 
     return 0;

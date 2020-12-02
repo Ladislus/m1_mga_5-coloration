@@ -46,7 +46,6 @@ void Graph::loadFile(const std::string& filepath) {
 }
 
 void Graph::writeFile(const std::string& filepath) {
-
     std::ofstream outfile(filepath, std::ios::trunc);
 
     if (outfile.is_open()) {
