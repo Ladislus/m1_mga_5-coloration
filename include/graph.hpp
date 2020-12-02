@@ -3,6 +3,8 @@
 
 #include "vertex.hpp"
 #include <vector>
+#include <fstream>
+#include <sstream>
 
 /**
  * Class that represent a complete non-oriented graph
@@ -16,6 +18,8 @@ class Graph {
     public:
         Graph();
         ~Graph();
+
+        void loadFile(const std::string& filepath);
 
         void addVertex(const std::string& identifier, const std::initializer_list<std::string>& nidentifiers);
         void addVertex(const std::string& identifier, const std::vector<std::string>& nidentifiers);

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <set>
+#include <algorithm>
 
 class Vertex;
 typedef std::unordered_map<std::string, Vertex*> nmap;

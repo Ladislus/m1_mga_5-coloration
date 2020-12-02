@@ -59,3 +59,41 @@ std::ostream& operator<<(std::ostream& out, const Graph& g) {
     for (const auto& vertex : g._vertices) out << *vertex.second << std::endl;
     return out;
 }
+
+void Graph::loadFile(const std::string& filepath) {
+
+    std::ifstream infile(filepath);
+    bool firstLine = true;
+    std::string line;
+
+    if (infile.is_open()) {
+        while (std::getline(infile, line)) {
+            if (!firstLine) {
+                // Get the first identifier (the vertex)
+                std::string vertex = line.substr(0, line.find(':'));
+
+                // Get the list of neighbors (without the '[]')
+                std::string neighborsString = line.substr(4, line.size());
+                neighborsString = neighborsString.substr(0, neighborsString.size() - 1);
+
+                // Split by comma and remove spaces
+                std::vector<std::string> neighbors;
+                std::stringstream ss(neighborsString);
+                while (ss.good()) {
+                    std::string sub;
+                    // Split beginning of the current line by comma, and add it inside 'sub'
+                    getline(ss, sub, ',');
+                    // Remove trailing spaces
+                    sub.erase(std::remove(sub.begin(), sub.end(), ' '), sub.end());
+                    // Add identifier to neighbors list
+                    neighbors.push_back(sub);
+                }
+                // Added current vertex with his neighbors to the graph
+                this->addVertex(vertex, neighbors);
+            } else firstLine = false;
+        }
+    } else {
+        std::cerr << "Error: Couldn't open file " << filepath << " (CANNOT_OPEN_FILE)" << std::endl;
+        exit(0);
+    }
+}

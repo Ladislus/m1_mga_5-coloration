@@ -1,4 +1,3 @@
-#include <algorithm>
 #include "vertex.hpp"
 
 Vertex::Vertex(const std::string& identifier): _identifier(identifier), _color(vide), _neighbors() {}
@@ -36,7 +35,7 @@ void Vertex::colorize() {
     for (const auto& neighbor : this->_neighbors) neighborsColor.insert(neighbor.second->color());
 
     if (neighborsColor.size() == colors.size()) {
-        std::cerr << "Error: No available color" << std::endl;
+        std::cerr << "Error: No available color (NO_COLOR_AVAILABLE)" << std::endl;
         exit(1);
     }
 
