@@ -7,6 +7,9 @@ const std::string& Vertex::identifier() const { return this->_identifier; }
 
 Color& Vertex::color() { return _color; }
 
+const nmap& Vertex::neighbors() const { return this->_neighbors; }
+
+
 std::string Vertex::printableColor() const {
     switch (this->_color) {
         case vide: return "vide";

@@ -23,6 +23,7 @@ class Vertex {
 
         const std::string& identifier() const;
         Color& color();
+        const nmap& neighbors() const;
 
         std::string printableColor() const;
 
