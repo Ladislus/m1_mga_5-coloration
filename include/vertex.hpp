@@ -9,18 +9,20 @@
 class Vertex;
 typedef std::unordered_map<std::string, Vertex*> nmap;
 
+enum Color { vide = -1, blue = 0, red = 1, green = 2, white = 3, black = 4 };
+
 class Vertex {
 
     private:
         std::string _identifier;
-        int _color;
+        Color _color;
         nmap _neighbors;
 
     public:
         explicit Vertex(const std::string& identifier);
 
         const std::string& identifier() const;
-        int& color();
+        Color& color();
 
         void addNeighbor(Vertex* vertex);
 

@@ -1,11 +1,11 @@
 #include <algorithm>
 #include "vertex.hpp"
 
-Vertex::Vertex(const std::string& identifier): _identifier(identifier), _color(-1), _neighbors() {}
+Vertex::Vertex(const std::string& identifier): _identifier(identifier), _color(vide), _neighbors() {}
 
 const std::string& Vertex::identifier() const { return this->_identifier; }
 
-int& Vertex::color() { return _color; }
+Color& Vertex::color() { return _color; }
 
 void Vertex::addNeighbor(Vertex* vertex) {
     const auto& it = this->_neighbors.find(vertex->identifier());
@@ -17,7 +17,7 @@ void Vertex::addNeighbor(Vertex* vertex) {
 
 void Vertex::colorize() {
     std::set<int> availableColors;
-    std::set<int> colors{ 0, 1, 2, 3, 4 };
+    std::set<int> colors { 0, 1, 2, 3, 4 };
     std::set<int> neighborsColor;
     for (const auto& neighbor : this->_neighbors) neighborsColor.insert(neighbor.second->color());
 
@@ -30,8 +30,8 @@ void Vertex::colorize() {
                         neighborsColor.begin(), neighborsColor.end(),
                         std::inserter(availableColors, availableColors.end()));
 
-    this->_color = *availableColors.begin();
-    for (const auto& vertex : this->_neighbors) if (vertex.second->color() < 0) vertex.second->colorize();
+    this->_color = static_cast<Color>(*availableColors.begin());
+    for (const auto& vertex : this->_neighbors) if (vertex.second->color() == vide) vertex.second->colorize();
 }
 
 std::ostream& operator<<(std::ostream& out, const Vertex& e) {

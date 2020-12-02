@@ -35,7 +35,7 @@ void Graph::solve() {
     } else this->_start->colorize();
 
     for (const auto& vertex : this->_vertices) {
-        if (vertex.second->color() < 0) {
+        if (vertex.second->color() == vide) {
             std::cerr << "Error: Two neighbors have the same color" << std::endl;
             exit(1);
         }
