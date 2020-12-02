@@ -29,7 +29,10 @@ void Graph::addVertex(const std::string& identifier, const std::initializer_list
 
 void Graph::solve() {
 
-    this->_start->colorize();
+    if (this->_start == nullptr) {
+        std::cerr << "Error: No vertices were added to the graph (EMPTY_GRAPH)" << std::endl;
+        exit(1);
+    } else this->_start->colorize();
 
     for (const auto& vertex : this->_vertices) {
         if (vertex.second->color() < 0) {
