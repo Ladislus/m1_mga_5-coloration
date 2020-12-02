@@ -41,7 +41,7 @@ void Graph::loadFile(const std::string& filepath) {
         infile.close();
     } else {
         std::cerr << "Error: Couldn't open file " << filepath << " (CANNOT_OPEN_FILE)" << std::endl;
-        exit(0);
+        exit(1);
     }
 }
 
@@ -53,6 +53,9 @@ void Graph::writeFile(const std::string& filepath) {
         for (const auto& it : this->_vertices)
             outfile << it.first << ": " << it.second->printableColor() << std::endl;
         outfile.close();
+    } else {
+        std::cerr << "Error: Couldn't open file " << filepath << " (CANNOT_OPEN_FILE)" << std::endl;
+        exit(1);
     }
 }
 
