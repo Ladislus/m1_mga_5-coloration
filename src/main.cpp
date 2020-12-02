@@ -6,7 +6,7 @@ int main(int argc, char* argv[]) {
     Graph g;
 
     if (argc > 1) {
-        std::cout << "Loading from file :" << std::endl << argv[1] << std::endl;
+        std::cout << "Loading from file : " << argv[1] << std::endl;
         g.loadFile(argv[1]);
     } else {
         std::cout << "Loading test data" << std::endl;
