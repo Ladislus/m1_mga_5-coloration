@@ -1,68 +1,45 @@
 #include "graph.hpp"
 
-Graph::Graph(std::vector<Vertex*>& vertices, std::vector<Edge*>& edges) : _edges(&edges), _vertices(&vertices) {}
+Graph::Graph(): _vertices(), _start(nullptr) {}
 
-std::vector<Vertex*> Graph::neighbors(const Vertex& e) const {
-    std::vector<Vertex*> neighbors;
+Graph::~Graph() {
+    for (const auto& vertex : this->_vertices) delete vertex.second;
+}
 
-    for (const Edge* edge : *this->_edges) {
-        if (*edge->from() == e) { neighbors.push_back(edge->to()); }
-        else if (*edge->to() == e) { neighbors.push_back(edge->from()); }
+void Graph::addVertex(const std::string& identifier, const std::initializer_list<std::string>& nidentifiers) {
+    Vertex* v = nullptr;
+    const auto& it = this->_vertices.find(identifier);
+    if (it == this->_vertices.end()) {
+        v = new Vertex(identifier);
+        this->_vertices.insert(std::pair(identifier, v));
+    } else v = it->second;
+
+    if (!this->_start) this->_start = v;
+
+    for (const auto& nidentifier : nidentifiers) {
+        const auto& it = this->_vertices.find(nidentifier);
+        Vertex* neighbor = nullptr;
+        if (it == this->_vertices.end()) {
+            neighbor = new Vertex(nidentifier);
+            this->_vertices.insert(std::pair(nidentifier, neighbor));
+        } else neighbor = it->second;
+        v->addNeighbor(neighbor);
     }
-
-    return neighbors;
 }
 
 void Graph::solve() {
 
-    if (!this->_vertices->empty()) {
-        colorize(this->_vertices->at(0));
-    } else {
-        std::cout << "ERROR, Graph is empty" << std::endl << "EXITING" << std::endl;
-        exit(1);
-    }
-}
+    this->_start->colorize();
 
-void Graph::colorize(Vertex* vertex) {
-    std::vector<int> colors = range(0, 5);
-    std::vector<Vertex*> neighbors = this->neighbors(*vertex);
-
-
-    std::vector<int> neighbors_colors;
-    for (const Vertex* neighbor : neighbors) if (neighbor->color() >= 0) neighbors_colors.push_back(neighbor->color());
-
-    std::vector<int> available_colors;
-    if (!neighbors_colors.empty()) std::sort(neighbors_colors.begin(), neighbors_colors.end());
-    std::set_difference(colors.begin(), colors.end(),
-                        neighbors_colors.begin(), neighbors_colors.end(),
-                        std::back_inserter(available_colors));
-
-    if (available_colors.empty()) {
-        std::cout << "ERROR, no available colors" << std::endl << "EXITING" << std::endl;
-        exit(1);
-    }
-
-    int selected_color = *std::min_element(available_colors.begin(), available_colors.end());
-    vertex->color() = selected_color;
-
-    for (Vertex* leaf : neighbors) {
-        if (leaf->color() < 0) {
-            colorize(leaf);
+    for (const auto& vertex : this->_vertices) {
+        if (vertex.second->color() < 0) {
+            std::cerr << "Error: Two neighbors have the same color" << std::endl;
+            exit(1);
         }
     }
 }
 
 std::ostream& operator<<(std::ostream& out, const Graph& g) {
-    out << "[ ";
-    for (const Vertex* vertex : *g._vertices) {
-        out << *vertex << " ";
-    }
-    out << "]" << std::endl;
-    for (const Edge* edge : *g._edges) {
-        out << "\t" << *edge << std::endl;
-    }
+    for (const auto& vertex : g._vertices) out << *vertex.second << std::endl;
     return out;
 }
-
-
-

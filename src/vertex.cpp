@@ -1,13 +1,41 @@
+#include <algorithm>
 #include "vertex.hpp"
 
-Vertex::Vertex(const std::string& identifier) : _identifier(identifier), _color(-1) {}
+Vertex::Vertex(const std::string& identifier): _identifier(identifier), _color(-1), _neighbors() {}
 
-int Vertex::color() const { return this->_color; }
+const std::string& Vertex::identifier() const { return this->_identifier; }
 
-int& Vertex::color() { return this->_color; }
+int& Vertex::color() { return _color; }
 
-std::ostream& operator<<(std::ostream& out, const Vertex& e) {
-    return out << e._identifier << "(" << e._color << ")";
+void Vertex::addNeighbor(Vertex* vertex) {
+    const auto& it = this->_neighbors.find(vertex->identifier());
+    if (it == this->_neighbors.end()) {
+        this->_neighbors.insert(std::pair(vertex->identifier(), vertex));
+        vertex->addNeighbor(this);
+    }
 }
 
-bool Vertex::operator==(const Vertex& other) { return this->_identifier == other._identifier; }
+void Vertex::colorize() {
+    std::set<int> availableColors;
+    std::set<int> colors{ 0, 1, 2, 3, 4 };
+    std::set<int> neighborsColor;
+    for (const auto& neighbor : this->_neighbors) neighborsColor.insert(neighbor.second->color());
+
+    if (neighborsColor.size() == colors.size()) {
+        std::cerr << "Error: No available color" << std::endl;
+        exit(1);
+    }
+
+    std::set_difference(colors.begin(), colors.end(),
+                        neighborsColor.begin(), neighborsColor.end(),
+                        std::inserter(availableColors, availableColors.end()));
+
+    this->_color = *availableColors.begin();
+    for (const auto& vertex : this->_neighbors) if (vertex.second->color() < 0) vertex.second->colorize();
+}
+
+std::ostream& operator<<(std::ostream& out, const Vertex& e) {
+    out << e._identifier << "(" << e._color << ")" << std::endl << "\t";
+    for (const auto& neighbor : e._neighbors) out << neighbor.second->identifier() << " ";
+    return out;
+}
