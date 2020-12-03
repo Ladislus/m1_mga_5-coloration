@@ -70,12 +70,12 @@ void Graph::addVertex(const std::string& identifier, const std::vector<std::stri
     if (!this->_start) this->_start = v;
 
     for (const auto& nidentifier : nidentifiers) {
-        const auto& it = this->_vertices.find(nidentifier);
+        const auto& itNeighbor = this->_vertices.find(nidentifier);
         Vertex* neighbor = nullptr;
-        if (it == this->_vertices.end()) {
+        if (itNeighbor == this->_vertices.end()) {
             neighbor = new Vertex(nidentifier);
             this->_vertices.insert(std::pair(nidentifier, neighbor));
-        } else neighbor = it->second;
+        } else neighbor = itNeighbor->second;
         v->addNeighbor(neighbor);
     }
 }
