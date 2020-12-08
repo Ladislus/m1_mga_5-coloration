@@ -50,8 +50,10 @@ void Graph::writeFile(const std::string& filepath) {
 
     if (outfile.is_open()) {
         outfile << this->_vertices.size() << std::endl;
-        for (const auto& it : this->_vertices)
-            outfile << it.first << ": " << it.second->printableColor() << std::endl;
+        for (size_t i = 0; i < this->_vertices.size(); i++) {
+            Vertex* v = this->_vertices.at(std::to_string(i));
+            outfile << v->identifier() << ": " << v->printableColor() << std::endl;
+        }
         outfile.close();
     } else {
         std::cerr << "Error: Couldn't open file " << filepath << " (CANNOT_OPEN_FILE)" << std::endl;
@@ -60,7 +62,7 @@ void Graph::writeFile(const std::string& filepath) {
 }
 
 void Graph::addVertex(const std::string& identifier, const std::vector<std::string>& nidentifiers) {
-    Vertex* v = nullptr;
+    Vertex* v;
     const auto& it = this->_vertices.find(identifier);
     if (it == this->_vertices.end()) {
         v = new Vertex(identifier);
@@ -71,7 +73,7 @@ void Graph::addVertex(const std::string& identifier, const std::vector<std::stri
 
     for (const auto& nidentifier : nidentifiers) {
         const auto& itNeighbor = this->_vertices.find(nidentifier);
-        Vertex* neighbor = nullptr;
+        Vertex* neighbor;
         if (itNeighbor == this->_vertices.end()) {
             neighbor = new Vertex(nidentifier);
             this->_vertices.insert(std::pair(nidentifier, neighbor));

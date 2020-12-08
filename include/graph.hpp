@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <string>
 
 /**
  * Class that represent a complete non-oriented graph
