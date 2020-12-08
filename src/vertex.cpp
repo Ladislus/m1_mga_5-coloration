@@ -29,6 +29,21 @@ void Vertex::addNeighbor(Vertex* vertex) {
     }
 }
 
+std::set<Vertex*> Vertex::depthSearch() {
+    std::set<Vertex*> seen;
+    std::stack<Vertex*> todo;
+    todo.push(this);
+
+    while(!todo.empty()) {
+        Vertex* v = todo.top();
+        todo.pop();
+        seen.insert(v);
+        for (const auto& neighbor : v->neighbors())
+            if (seen.find(neighbor.second) == seen.end()) todo.push(neighbor.second);
+    }
+    return seen;
+}
+
 void Vertex::colorize() {
     std::set<int> availableColors;
     std::set<int> colors { 0, 1, 2, 3, 4 };

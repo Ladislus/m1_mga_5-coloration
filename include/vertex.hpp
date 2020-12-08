@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <set>
 #include <algorithm>
+#include <stack>
 
 class Vertex;
 typedef std::unordered_map<std::string, Vertex*> nmap;
@@ -24,12 +25,12 @@ class Vertex {
 
         const std::string& identifier() const;
         Color& color();
-        const nmap& neighbors() const;
-
         std::string printableColor() const;
+        const nmap& neighbors() const;
 
         void addNeighbor(Vertex* vertex);
 
+        std::set<Vertex*> depthSearch();
         void colorize();
 
         friend std::ostream& operator<<(std::ostream& out, const Vertex& e);
