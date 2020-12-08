@@ -27,7 +27,7 @@ class Vertex {
         void addNeighbor(Vertex* vertex);
 
         std::set<Vertex*> depthSearch();
-        void colorize();
+        void colorize(std::set<std::string> ignored);
 
         friend std::ostream& operator<<(std::ostream& out, const Vertex& e);
 };

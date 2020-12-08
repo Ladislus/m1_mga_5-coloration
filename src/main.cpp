@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Test data loaded !" << std::endl;
         std::cout << g << std::endl;
     }
-    std::cout << g << std::endl;
+
     g.coloring();
     if (!g.checkColoring()) {
         std::cerr << "Error: Coloring went wrong (SAME_COLOR_NEIGHBORS)" << std::endl;

@@ -39,6 +39,7 @@ void Graph::loadFile(const std::string& filepath) {
             } else firstLine = false;
         }
         infile.close();
+        std::cout << "File loaded !" << std::endl;
     } else {
         std::cerr << "Error: Couldn't open file " << filepath << " (CANNOT_OPEN_FILE)" << std::endl;
         exit(1);
@@ -55,6 +56,7 @@ void Graph::writeFile(const std::string& filepath) {
             outfile << v->identifier() << ": " << v->printableColor() << std::endl;
         }
         outfile.close();
+        std::cout << "File written !" << std::endl;
     } else {
         std::cerr << "Error: Couldn't open file " << filepath << " (CANNOT_OPEN_FILE)" << std::endl;
         exit(1);
@@ -90,7 +92,10 @@ void Graph::coloring() {
     if (this->_start == nullptr) {
         std::cerr << "Error: No vertices were added to the graph (EMPTY_GRAPH)" << std::endl;
         exit(1);
-    } else this->_start->colorize();
+    } else {
+        std::cout << "Starting coloring !" << std::endl;
+        this->_start->colorize(std::set<std::string>());
+    }
 }
 
 bool Graph::checkColoring() {
