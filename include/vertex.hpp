@@ -3,13 +3,9 @@
 
 #include <string>
 #include <iostream>
-#include <unordered_map>
 #include <set>
 #include <algorithm>
 #include <stack>
-
-class Vertex;
-typedef std::unordered_map<std::string, Vertex*> nmap;
 
 enum Color { vide = -1, blue = 0, red = 1, green = 2, white = 3, black = 4 };
 
@@ -18,7 +14,7 @@ class Vertex {
     private:
         std::string _identifier;
         Color _color;
-        nmap _neighbors;
+        std::vector<Vertex*> _neighbors;
 
     public:
         explicit Vertex(const std::string& identifier);
@@ -26,7 +22,7 @@ class Vertex {
         const std::string& identifier() const;
         Color& color();
         std::string printableColor() const;
-        const nmap& neighbors() const;
+        const std::vector<Vertex*>& neighbors() const;
 
         void addNeighbor(Vertex* vertex);
 

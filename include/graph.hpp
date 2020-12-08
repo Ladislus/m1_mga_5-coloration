@@ -2,7 +2,7 @@
 #define INC_5_COLORATION_GRAPH_HPP
 
 #include "vertex.hpp"
-#include <vector>
+#include <unordered_map>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -13,7 +13,7 @@
 class Graph {
 
     private:
-        nmap _vertices;
+        std::unordered_map<std::string, Vertex*> _vertices;
         Vertex* _start;
 
     public:

@@ -72,8 +72,8 @@ void Graph::addVertex(const std::string& identifier, const std::vector<std::stri
     if (!this->_start) this->_start = v;
 
     for (const auto& nidentifier : nidentifiers) {
-        const auto& itNeighbor = this->_vertices.find(nidentifier);
         Vertex* neighbor;
+        const auto& itNeighbor = this->_vertices.find(nidentifier);
         if (itNeighbor == this->_vertices.end()) {
             neighbor = new Vertex(nidentifier);
             this->_vertices.insert(std::pair(nidentifier, neighbor));
@@ -87,7 +87,6 @@ void Graph::addVertex(const std::string& identifier, const std::initializer_list
 }
 
 void Graph::coloring() {
-
     if (this->_start == nullptr) {
         std::cerr << "Error: No vertices were added to the graph (EMPTY_GRAPH)" << std::endl;
         exit(1);
@@ -102,7 +101,7 @@ bool Graph::checkColoring() {
         // ... For each neighbor of the current vertex ...
         for (const auto& neighbor : vertex.second->neighbors()) {
             // ... If the current vertex has the same color has the neighbor, return false
-            if (vertex.second->color() == neighbor.second->color()) return false;
+            if (vertex.second->color() == neighbor->color()) return false;
         }
     }
     // If everything went fine, return true;

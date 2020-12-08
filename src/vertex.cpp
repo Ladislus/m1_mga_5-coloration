@@ -6,7 +6,7 @@ const std::string& Vertex::identifier() const { return this->_identifier; }
 
 Color& Vertex::color() { return _color; }
 
-const nmap& Vertex::neighbors() const { return this->_neighbors; }
+const std::vector<Vertex*>& Vertex::neighbors() const { return this->_neighbors; }
 
 
 std::string Vertex::printableColor() const {
@@ -22,11 +22,8 @@ std::string Vertex::printableColor() const {
 }
 
 void Vertex::addNeighbor(Vertex* vertex) {
-    const auto& it = this->_neighbors.find(vertex->identifier());
-    if (it == this->_neighbors.end()) {
-        this->_neighbors.insert(std::pair(vertex->identifier(), vertex));
-        vertex->addNeighbor(this);
-    }
+    for (const auto& neighbor : this->_neighbors) if (neighbor->_identifier == vertex->_identifier) return;
+    this->_neighbors.push_back(vertex);
 }
 
 std::set<Vertex*> Vertex::depthSearch() {
@@ -39,7 +36,7 @@ std::set<Vertex*> Vertex::depthSearch() {
         todo.pop();
         seen.insert(v);
         for (const auto& neighbor : v->neighbors())
-            if (seen.find(neighbor.second) == seen.end()) todo.push(neighbor.second);
+            if (seen.find(neighbor) == seen.end()) todo.push(neighbor);
     }
     return seen;
 }
@@ -48,7 +45,7 @@ void Vertex::colorize() {
     std::set<int> availableColors;
     std::set<int> colors { 0, 1, 2, 3, 4 };
     std::set<int> neighborsColor;
-    for (const auto& neighbor : this->_neighbors) neighborsColor.insert(neighbor.second->color());
+    for (const auto& neighbor : this->_neighbors) neighborsColor.insert(neighbor->color());
 
     if (neighborsColor.size() == colors.size()) {
         std::cerr << "Error: No available color (NO_COLOR_AVAILABLE)" << std::endl;
@@ -60,11 +57,11 @@ void Vertex::colorize() {
                         std::inserter(availableColors, availableColors.end()));
 
     this->_color = static_cast<Color>(*availableColors.begin());
-    for (const auto& vertex : this->_neighbors) if (vertex.second->color() == vide) vertex.second->colorize();
+    for (const auto& vertex : this->_neighbors) if (vertex->color() == vide) vertex->colorize();
 }
 
 std::ostream& operator<<(std::ostream& out, const Vertex& e) {
     out << e._identifier << " (" << e.printableColor() << ") [ ";
-    for (const auto& neighbor : e._neighbors) out << neighbor.second->identifier() << " ";
+    for (const auto& neighbor : e._neighbors) out << neighbor->identifier() << " ";
     return out << "]";
 }
