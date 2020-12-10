@@ -25,10 +25,7 @@ class Graph {
         void loadCoords(const std::string& filepath);
         void writeFile(const std::string& filepath);
 
-        void addVertex(const std::string& identifier, const std::initializer_list<std::string>& nidentifiers);
         void addVertex(const std::string& identifier, const std::vector<std::string>& nidentifiers);
-        //DEBUG
-        void addVertex(const std::string& identifier, const std::initializer_list<std::string>& nidentifiers, const Color& color);
 
         void coloring();
         bool checkColoring();
