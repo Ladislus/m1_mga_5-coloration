@@ -171,10 +171,13 @@ void Graph::output() {
 
     GVC_t* gvc = gvContext();
 
-    Agraph_t* g = agopen((char*)"Graph", Agundirected, nullptr);
+    Agraph_t* g = agopen((char*)"Graph", Agstrictundirected, nullptr);
 
     std::vector<char*> pointers;
 
+    std::unordered_map<std::string, Agnode_t*> nodes;
+
+    // Creation of the nodes
     for (const auto& v : this->_vertices) {
         char* name = new char[v.second->identifier().length() + 1];
         char* color = new char[v.second->printableColor().length() + 1];
@@ -185,12 +188,10 @@ void Graph::output() {
         Agnode_t* node = agnode(g, name, 1);
         agsafeset(node, (char*)"shape", (char*)"circle", (char*)"");
         agsafeset(node, (char*)"style", (char*)"solid,filled", (char*)"");
+        agsafeset(node, (char*)"color", (char*)"black", (char*)"");
         agsafeset(node, (char*)"fillcolor", color, (char*)"");
 
-        if (v.second->color() == white) agsafeset(node, (char*)"color", (char*)"black", (char*)"");
-        else agsafeset(node, (char*)"color", (char*)"white", (char*)"");
-
-        if (v.second->color() == black) agsafeset(node, (char*)"fontcolor", (char*)"white", (char*)"");
+        if (v.second->color() == black || v.second->color() == blue) agsafeset(node, (char*)"fontcolor", (char*)"white", (char*)"");
         else agsafeset(node, (char*)"fontcolor", (char*)"black", (char*)"");
 
         std::string pos = std::to_string(v.second->x()).append(",").append(std::to_string(v.second->y())).append("!");
@@ -198,9 +199,18 @@ void Graph::output() {
         strcpy(c_pos, pos.c_str());
         agsafeset(node, (char*)"pos", c_pos, (char*)"");
 
+        nodes.insert(std::pair(v.first, node));
+
         pointers.push_back(c_pos);
         pointers.push_back(name);
         pointers.push_back(color);
+    }
+
+    for (const auto& v : this->_vertices) {
+        for (const auto& n : v.second->neighbors()) {
+            Agedge_t* edge = agedge(g, nodes.at(v.second->identifier()), nodes.at(n->identifier()), nullptr, 1);
+            agsafeset(edge, (char*)"dir", (char*)"none", (char*)"");
+        }
     }
 
     gvLayout(gvc, g, "fdp");
@@ -209,7 +219,7 @@ void Graph::output() {
     agclose(g);
     gvFreeContext(gvc);
 
-    for (auto& p : pointers) free(p);
+    for (const auto& p : pointers) free(p);
 }
 
 std::ostream& operator<<(std::ostream& out, const Graph& g) {
