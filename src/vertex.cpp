@@ -2,6 +2,9 @@
 
 Vertex::Vertex(const std::string& identifier): _identifier(identifier), _color(vide), _neighbors() {}
 
+//DEBUG
+Vertex::Vertex(const std::string& identifier, const Color& color): _identifier(identifier), _color(color), _neighbors() {}
+
 const std::string& Vertex::identifier() const { return this->_identifier; }
 
 Color& Vertex::color() { return _color; }
@@ -26,19 +29,36 @@ void Vertex::addNeighbor(Vertex* vertex) {
     this->_neighbors.push_back(vertex);
 }
 
-std::set<Vertex*> Vertex::depthSearch() {
+bool Vertex::flipIfUnreachable(Vertex* target, Vertex* ignored) {
+    bool reached = false;
     std::set<Vertex*> seen;
     std::stack<Vertex*> todo;
     todo.push(this);
 
+    // Depth Search
     while(!todo.empty()) {
         Vertex* v = todo.top();
         todo.pop();
         seen.insert(v);
-        for (const auto& neighbor : v->neighbors())
-            if (seen.find(neighbor) == seen.end()) todo.push(neighbor);
+        for (const auto& neighbor : v->neighbors()) {
+            if (neighbor->identifier() == target->identifier())
+                reached = true;
+            if (seen.find(neighbor) == seen.end() &&
+                neighbor->identifier() != ignored->identifier() &&
+                (neighbor->color() == target->color() || neighbor->color() == this->_color))
+                todo.push(neighbor);
+        }
     }
-    return seen;
+
+    if (reached) return false;
+
+    ignored->color() = this->_color;
+
+    for (const auto& v : seen)
+        if (v->color() == target->color()) v->color() = this->color();
+        else v->color() = target->color();
+
+    return true;
 }
 
 void Vertex::colorize(std::set<std::string> ignored) {
@@ -57,16 +77,19 @@ void Vertex::colorize(std::set<std::string> ignored) {
             neighborsColor.insert(neighbor->color());
 
     if (neighborsColor.size() == colors.size()) {
-        std::cerr << "Error: No available color (NO_COLOR_AVAILABLE)" << std::endl;
-        std::cerr << "Debug: " << this->_identifier << std::endl;
-        exit(1);
+        if (!this->_neighbors.at(0)->flipIfUnreachable(this->_neighbors.at(2), this))
+            if (!this->_neighbors.at(1)->flipIfUnreachable(this->_neighbors.at(3), this)) {
+                std::cerr << "Error: Flipping does not resolve the problem (FLIP_INEFFECTIVE)" << std::endl;
+                std::cerr << "Debug: " << this->_identifier << std::endl;
+                exit(1);
+            }
+    } else {
+        std::set_difference(colors.begin(), colors.end(),
+                            neighborsColor.begin(), neighborsColor.end(),
+                            std::inserter(availableColors, availableColors.end()));
+
+        this->_color = static_cast<Color>(*availableColors.begin());
     }
-
-    std::set_difference(colors.begin(), colors.end(),
-                        neighborsColor.begin(), neighborsColor.end(),
-                        std::inserter(availableColors, availableColors.end()));
-
-    this->_color = static_cast<Color>(*availableColors.begin());
 }
 
 std::ostream& operator<<(std::ostream& out, const Vertex& e) {

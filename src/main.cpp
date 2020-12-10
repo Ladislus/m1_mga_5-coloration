@@ -11,11 +11,12 @@ int main(int argc, char* argv[]) {
         g.loadFile(argv[1]);
     } else {
         std::cout << "Loading test data" << std::endl;
-        g.addVertex("A", {"B", "C", "D"});
-        g.addVertex("B", {"A", "C", "D"});
-        g.addVertex("C", {"A", "B", "D"});
-        g.addVertex("D", {"A", "B", "C"});
-        g.addVertex("E", {"A"});
+        g.addVertex("0", {"1", "2", "3", "4", "5"});
+        g.addVertex("1", {"0"}, red);
+        g.addVertex("2", {"0"}, blue);
+        g.addVertex("3", {"0"}, green);
+        g.addVertex("4", {"0"}, white);
+        g.addVertex("5", {"0"}, black);
         std::cout << "Test data loaded !" << std::endl;
         std::cout << g << std::endl;
     }

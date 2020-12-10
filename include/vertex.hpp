@@ -18,6 +18,8 @@ class Vertex {
 
     public:
         explicit Vertex(const std::string& identifier);
+        //DEBUG
+        Vertex(const std::string& identifier, const Color& color);
 
         const std::string& identifier() const;
         Color& color();
@@ -26,7 +28,7 @@ class Vertex {
 
         void addNeighbor(Vertex* vertex);
 
-        std::set<Vertex*> depthSearch();
+        bool flipIfUnreachable(Vertex* target, Vertex* ignored);
         void colorize(std::set<std::string> ignored);
 
         friend std::ostream& operator<<(std::ostream& out, const Vertex& e);
