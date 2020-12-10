@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <graphviz/gvc.h>
 
 /**
  * Class that represent a complete non-oriented graph
@@ -31,6 +32,7 @@ class Graph {
 
         void coloring();
         bool checkColoring();
+        void output();
 
         friend std::ostream& operator<<(std::ostream& out, const Graph& g);
 };

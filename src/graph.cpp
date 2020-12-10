@@ -167,6 +167,51 @@ bool Graph::checkColoring() {
     return true;
 }
 
+void Graph::output() {
+
+    GVC_t* gvc = gvContext();
+
+    Agraph_t* g = agopen((char*)"Graph", Agundirected, nullptr);
+
+    std::vector<char*> pointers;
+
+    for (const auto& v : this->_vertices) {
+        char* name = new char[v.second->identifier().length() + 1];
+        char* color = new char[v.second->printableColor().length() + 1];
+
+        strcpy(name, v.second->identifier().c_str());
+        strcpy(color, v.second->printableColor().c_str());
+
+        Agnode_t* node = agnode(g, name, 1);
+        agsafeset(node, (char*)"shape", (char*)"circle", (char*)"");
+        agsafeset(node, (char*)"style", (char*)"solid,filled", (char*)"");
+        agsafeset(node, (char*)"fillcolor", color, (char*)"");
+
+        if (v.second->color() == white) agsafeset(node, (char*)"color", (char*)"black", (char*)"");
+        else agsafeset(node, (char*)"color", (char*)"white", (char*)"");
+
+        if (v.second->color() == black) agsafeset(node, (char*)"fontcolor", (char*)"white", (char*)"");
+        else agsafeset(node, (char*)"fontcolor", (char*)"black", (char*)"");
+
+        std::string pos = std::to_string(v.second->x()).append(",").append(std::to_string(v.second->y())).append("!");
+        char* c_pos = new char[pos.length() + 1];
+        strcpy(c_pos, pos.c_str());
+        agsafeset(node, (char*)"pos", c_pos, (char*)"");
+
+        pointers.push_back(c_pos);
+        pointers.push_back(name);
+        pointers.push_back(color);
+    }
+
+    gvLayout(gvc, g, "fdp");
+    gvRenderFilename(gvc, g, "png", "out.png");
+    gvFreeLayout(gvc, g);
+    agclose(g);
+    gvFreeContext(gvc);
+
+    for (auto& p : pointers) free(p);
+}
+
 std::ostream& operator<<(std::ostream& out, const Graph& g) {
     for (const auto& vertex : g._vertices) out << *vertex.second << std::endl;
     return out;

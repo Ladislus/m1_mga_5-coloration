@@ -1,5 +1,4 @@
 #include "graph.hpp"
-#include <iostream>
 #include <filesystem>
 
 int main(int argc, char* argv[]) {
@@ -24,7 +23,7 @@ int main(int argc, char* argv[]) {
         g.loadFile(argv[1]);
         g.loadCoords(argv[2]);
     } else {
-        std::cerr << "Usage: ./5_coloration ([path_to_graphe] [path_to_coords] ([path_to_output]))" << std::endl;
+        std::cerr << "Usage: ./5_coloration ([path_to_graphe] [path_to_coords])" << std::endl;
         exit(1);
     }
 
@@ -35,8 +34,8 @@ int main(int argc, char* argv[]) {
     } else {
         std::cout << "Coloring completed with success !" << std::endl;
         std::cout << g << std::endl;
-        if (argc >= 4) g.writeFile(argv[2]);
-        else g.writeFile(std::filesystem::current_path().string().append("/out.colors"));
+        g.writeFile(std::filesystem::current_path().string().append("/out.colors"));
+        g.output();
     }
 
     return 0;
