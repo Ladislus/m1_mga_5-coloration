@@ -43,7 +43,7 @@ std::set<Vertex*> Vertex::depthSearch() {
 
 void Vertex::colorize(std::set<std::string> ignored) {
 
-    ignored.insert(this->identifier());
+    ignored.insert(this->_identifier);
     for (const auto& neighbor : this->_neighbors)
         if (ignored.find(neighbor->_identifier) == ignored.end() && neighbor->_color == vide)
             neighbor->colorize(ignored);
@@ -52,11 +52,13 @@ void Vertex::colorize(std::set<std::string> ignored) {
     std::set<int> colors { 0, 1, 2, 3, 4 };
     std::set<int> neighborsColor;
     for (const auto& neighbor : this->_neighbors)
-        if (ignored.find(neighbor->_identifier) == ignored.end())
+//        if (ignored.find(neighbor->_identifier) == ignored.end())
+        if (neighbor->_color != vide)
             neighborsColor.insert(neighbor->color());
 
     if (neighborsColor.size() == colors.size()) {
         std::cerr << "Error: No available color (NO_COLOR_AVAILABLE)" << std::endl;
+        std::cerr << "Debug: " << this->_identifier << std::endl;
         exit(1);
     }
 

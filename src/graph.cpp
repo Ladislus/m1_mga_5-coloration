@@ -102,11 +102,17 @@ bool Graph::checkColoring() {
     // For each vertex in the graph ...
     for (const auto& vertex : this->_vertices) {
         // ... If the current vertex has no color, return false
-        if (vertex.second->color() == vide) return false;
+        if (vertex.second->color() == vide) {
+            std::cerr << "Debug: No color given to " << vertex.first << std::endl;
+            return false;
+        }
         // ... For each neighbor of the current vertex ...
         for (const auto& neighbor : vertex.second->neighbors()) {
             // ... If the current vertex has the same color has the neighbor, return false
-            if (vertex.second->color() == neighbor->color()) return false;
+            if (vertex.second->color() == neighbor->color()) {
+                std::cerr << "DEBUG: " << vertex.first << " and " << neighbor->identifier() << " have the same color (" << neighbor->printableColor() << ")" << std::endl;
+                return false;
+            }
         }
     }
     // If everything went fine, return true;
