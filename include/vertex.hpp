@@ -15,6 +15,7 @@ class Vertex {
         std::string _identifier;
         Color _color;
         std::vector<Vertex*> _neighbors;
+        int _x, _y;
 
     public:
         explicit Vertex(const std::string& identifier);
@@ -25,6 +26,8 @@ class Vertex {
         Color& color();
         std::string printableColor() const;
         const std::vector<Vertex*>& neighbors() const;
+        int& x();
+        int& y();
 
         void addNeighbor(Vertex* vertex);
 

@@ -21,6 +21,7 @@ class Graph {
         ~Graph();
 
         void loadFile(const std::string& filepath);
+        void loadCoords(const std::string& filepath);
         void writeFile(const std::string& filepath);
 
         void addVertex(const std::string& identifier, const std::initializer_list<std::string>& nidentifiers);

@@ -46,6 +46,29 @@ void Graph::loadFile(const std::string& filepath) {
     }
 }
 
+void Graph::loadCoords(const std::string &filepath) {
+
+    std::ifstream infile(filepath, std::ios::in);
+    bool firstLine = true;
+    std::string line;
+
+    if (infile.is_open()) {
+        while (std::getline(infile, line)) {
+            if (!firstLine) {
+                // Get the first identifier (the vertex)
+                std::string vertex = line.substr(0, line.find(':'));
+                this->_vertices.at(vertex)->x() = std::stoi(line.substr(line.find('(') + 1, line.find(',')));
+                this->_vertices.at(vertex)->y() = std::stoi(line.substr(line.find(',') + 2, line.find(')')));
+            } else firstLine = false;
+        }
+        infile.close();
+        std::cout << "Coords loaded !" << std::endl;
+    } else {
+        std::cerr << "Error: Couldn't open file " << filepath << " (CANNOT_OPEN_FILE)" << std::endl;
+        exit(1);
+    }
+}
+
 void Graph::writeFile(const std::string& filepath) {
     std::ofstream outfile(filepath, std::ios::trunc);
 

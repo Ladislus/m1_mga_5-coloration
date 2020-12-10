@@ -1,9 +1,9 @@
 #include "vertex.hpp"
 
-Vertex::Vertex(const std::string& identifier): _identifier(identifier), _color(vide), _neighbors() {}
+Vertex::Vertex(const std::string& identifier): _identifier(identifier), _color(vide), _neighbors(), _x(0), _y(0) {}
 
 //DEBUG
-Vertex::Vertex(const std::string& identifier, const Color& color): _identifier(identifier), _color(color), _neighbors() {}
+Vertex::Vertex(const std::string& identifier, const Color& color): _identifier(identifier), _color(color), _neighbors(), _x(0), _y(0) {}
 
 const std::string& Vertex::identifier() const { return this->_identifier; }
 
@@ -11,6 +11,9 @@ Color& Vertex::color() { return _color; }
 
 const std::vector<Vertex*>& Vertex::neighbors() const { return this->_neighbors; }
 
+int& Vertex::x() { return this->_x; }
+
+int& Vertex::y() { return this->_y; }
 
 std::string Vertex::printableColor() const {
     switch (this->_color) {
@@ -93,7 +96,7 @@ void Vertex::colorize(std::set<std::string> ignored) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Vertex& e) {
-    out << e._identifier << " (" << e.printableColor() << ") [ ";
+    out << e._identifier << " { " << e._x << ", " << e._y << " } (" << e.printableColor() << ") [ ";
     for (const auto& neighbor : e._neighbors) out << neighbor->identifier() << " ";
     return out << "]";
 }
