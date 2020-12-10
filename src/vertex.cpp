@@ -1,8 +1,5 @@
 #include "vertex.hpp"
 
-Vertex::Vertex(const std::string& identifier): _identifier(identifier), _color(vide), _neighbors(), _x(0), _y(0) {}
-
-//DEBUG
 Vertex::Vertex(const std::string& identifier, const Color& color): _identifier(identifier), _color(color), _neighbors(), _x(0), _y(0) {}
 
 const std::string& Vertex::identifier() const { return this->_identifier; }

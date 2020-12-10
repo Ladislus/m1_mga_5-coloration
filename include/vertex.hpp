@@ -18,9 +18,7 @@ class Vertex {
         int _x, _y;
 
     public:
-        explicit Vertex(const std::string& identifier);
-        //DEBUG
-        Vertex(const std::string& identifier, const Color& color);
+        explicit Vertex(const std::string& identifier, const Color& color = vide);
 
         const std::string& identifier() const;
         Color& color();
