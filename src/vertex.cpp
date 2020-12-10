@@ -72,7 +72,6 @@ void Vertex::colorize(std::set<std::string> ignored) {
     std::set<int> colors { 0, 1, 2, 3, 4 };
     std::set<int> neighborsColor;
     for (const auto& neighbor : this->_neighbors)
-//        if (ignored.find(neighbor->_identifier) == ignored.end())
         if (neighbor->_color != vide)
             neighborsColor.insert(neighbor->color());
 
