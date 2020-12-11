@@ -25,7 +25,7 @@ Sur Ubuntu, il est aussi possible qu'après l'installation du package *graphviz*
 Pour y remédier, il vous faut installer le package *graphviz-dev* : `sudo apt install graphviz-dev`
 
 ### Compilation
-Afin de compiler, voici les étapes à suivres :
+Afin de compiler, voici les étapes à suivre :
 1. Se placer à la racine du projet.
 2. `mkdir BUILD && cd BUILD && cmake ..` permet de créer le makefile adapté.
 2. `make` pour compiler le projet
